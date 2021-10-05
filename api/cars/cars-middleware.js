@@ -4,10 +4,10 @@ const checkCarId = async (req, res, next) => {
   try {
     const car = await Car.getById(req.params.id);
     if (!car) {
-      next({ status: 404, message: `car is not found` });
+      next({ status: 404, message: `car id not found` });
     } else {
       req.car = car;
-      next()
+      next();
     }
   } catch (err) {
     next(err);
@@ -15,17 +15,34 @@ const checkCarId = async (req, res, next) => {
 };
 
 const checkCarPayload = (req, res, next) => {
-  // DO YOUR MAGIC
+  const error = { status: 400 };
+  if (!req.body.vin) {
+    error.message = "vin is required";
+  } else if (!req.body.make) {
+    error.message = "make is required";
+  } else if (!req.body.model) {
+    error.message = "model is required";
+  } else if (!req.body.mileage) {
+    error.message = "mileage is required";
+  }
+  if (error.message) {
+    next(error);
+  } else {
+    next();
+  }
 };
 
 const checkVinNumberValid = (req, res, next) => {
-  // DO YOUR MAGIC
+  next();
 };
 
 const checkVinNumberUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+  next();
 };
 
 module.exports = {
   checkCarId,
+  checkCarPayload,
+  checkVinNumberValid,
+  checkVinNumberUnique,
 };

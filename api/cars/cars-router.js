@@ -7,15 +7,14 @@ router.get("/", async (req, res, next) => {
   try {
     const cars = await Car.getAll();
     res.json(cars);
-    res.json("get all cars");
   } catch (err) {
     next(err);
   }
 });
 
-router.get("/:id", checkCarId, (req, res, next) => {
+router.get("/:id", checkCarId, async (req, res, next) => {
   try {
-    console.log("get car id");
+    res.json(req.car);
   } catch (err) {
     next(err);
   }

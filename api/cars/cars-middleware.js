@@ -2,10 +2,12 @@ Car = require("./cars-model");
 
 const checkCarId = async (req, res, next) => {
   try {
-    const { id } = req.params.id;
-    const car = await Car.getAll(id);
+    const car = await Car.getById(req.params.id);
     if (!car) {
-      next({status: 404, message: `car with id ${id} is not found`})
+      next({ status: 404, message: `car is not found` });
+    } else {
+      req.car = car;
+      next()
     }
   } catch (err) {
     next(err);
@@ -27,4 +29,3 @@ const checkVinNumberUnique = (req, res, next) => {
 module.exports = {
   checkCarId,
 };
-

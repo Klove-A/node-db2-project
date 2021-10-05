@@ -9,7 +9,7 @@ const getById = (id) => {
 };
 
 const create = () => {
-  const [id] = await db("cars").insert(post);
+  const [id] = await db("cars").insert(car);
   return getById(id);
 };
 

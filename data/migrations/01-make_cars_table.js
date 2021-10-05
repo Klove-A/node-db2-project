@@ -1,12 +1,12 @@
 exports.up = async function (knex) {
   await knex.schema.createTable("cars", (table) => {
     table.increments("id");
-    table.string("vin").unique().notNullable();
-    table.string("make").notNullable();
-    table.string("model").notNullable();
+    table.string("vin", 128).unique().notNullable();
+    table.string("make", 128).notNullable();
+    table.string("model", 128).notNullable();
     table.decimal("mileage").notNullable();
-    table.string("title");
-    table.string("transmission");
+    table.string("title", 128);
+    table.string("transmission", 128);
   });
 };
 

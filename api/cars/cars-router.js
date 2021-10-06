@@ -17,7 +17,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", checkCarId, async (req, res, next) => {
+router.get("/:id", checkCarId, (req, res, next) => {
   try {
     res.json(req.car);
   } catch (err) {

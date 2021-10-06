@@ -16,21 +16,40 @@ const checkCarId = async (req, res, next) => {
 };
 
 const checkCarPayload = (req, res, next) => {
+  // How I wanted to write it dry and clean!
   const error = { status: 400 };
   if (!req.body.vin) {
-    error.message = "vin is required";
+    error.message = "vin is missing";
   } else if (!req.body.make) {
-    error.message = "make is required";
+    error.message = "make is missing";
   } else if (!req.body.model) {
-    error.message = "model is required";
+    error.message = "model is missing";
   } else if (!req.body.mileage) {
-    error.message = "mileage is required";
+    error.message = "mileage is missing";
   }
   if (error.message) {
     next(error);
   } else {
     next();
   }
+  // Gabe's way
+  // if (!req.body.vin) return next({
+  //   status: 400,
+  //   message: "vin is missing",
+  // });
+  // if (!req.body.make) return next({
+  //   status: 400,
+  //   message: "make is missing",
+  // });
+  // if (!req.body.model) return next({
+  //   status: 400,
+  //   message: "model is missing",
+  // });
+  // if (!req.body.mileage) return next({
+  //   status: 400,
+  //   message: "mileage is missing",
+  // });
+  // next();
 };
 
 const checkVinNumberValid = (req, res, next) => {
@@ -48,9 +67,9 @@ const checkVinNumberValid = (req, res, next) => {
 const checkVinNumberUnique = async (req, res, next) => {
   try {
     const { vin } = req.body;
-    const carVin = await Car.getByVin(vin) 
+    const carVin = await Car.getByVin(vin);
     if (!carVin) {
-      next()
+      next();
     } else {
       next({
         status: 400,
@@ -58,7 +77,7 @@ const checkVinNumberUnique = async (req, res, next) => {
       });
     }
   } catch (err) {
-    next (err)
+    next(err);
   }
 };
 
